@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+{% load staticfiles %}
+<html>
+<head>
+
+<link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
+
+<ul>
+  <li><a href="index.html">Home</a></li>
+  <li class="dropdown">
+    <a href="javascript:void(0)" class="dropbtn">Application</a>
+    <div class="dropdown-content">
+      <a href="createApp.html">Create Application</a>
+      <a href="getApp.html">Get Application</a>
+    </div>
+  </li>
+  <li class="dropdown">
+    <a href="javascript:void(0)" class="dropbtn">Deployment</a>
+    <div class="dropdown-content">
+      <a href="createDep.html">Create Deployment</a>
+      <a href="createDepGroup.html">Create Deployment Group</a>
+    </div>
+  </li>
+  
+  <li class="dropdown">
+    <a href="javascript:void(0)" class="dropbtn">List</a>
+    <div class="dropdown-content">
+      <a href="listApp.html">Application</a>
+      <a href="listAppRev.html">Application Revisions</a>
+      <a href="listDep.html">Deployment</a>
+      <a href="listDepGroup.html">Deployment Group</a>
+    </div>
+  </li>
+</ul>
+
+<div style="border-radius=5px">
+<h3>Create Application</h3>
+  <form method="POST" action="/createApp.html">{% csrf_token %}
+    <label for="Appname">Application Name</label>
+    <input type="text" id="AppName" name="appName" placeholder="Your application name..">
+
+    
+  
+    <input type="submit" value="Create Application">
+  </form>
+  <a> {{ htmlVal | linebreaks}} </a>
+</div>
+
+</body>
+</html>

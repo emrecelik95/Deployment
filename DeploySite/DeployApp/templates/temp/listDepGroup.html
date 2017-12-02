@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+{% load staticfiles %}
+<html>
+<head>
+
+<link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
+
+<ul><li><a href="index.html">Home</a></li>
+  <li class="dropdown">
+    <a href="javascript:void(0)" class="dropbtn">Application</a>
+    <div class="dropdown-content">
+      <a href="createApp.html">Create Application</a>
+      <a href="getApp.html">Get Application</a>
+    </div>
+  </li>
+  <li class="dropdown">
+    <a href="javascript:void(0)" class="dropbtn">Deployment</a>
+    <div class="dropdown-content">
+      <a href="createDep.html">Create Deployment</a>
+      <a href="createDepGroup.html">Create Deployment Group</a>
+    </div>
+  </li>
+  
+  <li class="dropdown">
+    <a href="javascript:void(0)" class="dropbtn">List</a>
+    <div class="dropdown-content">
+      <a href="listApp.html">Application</a>
+      <a href="listAppRev.html">Application Revisions</a>
+      <a href="listDep.html">Deployment</a>
+      <a href="#">Deployment Group</a>
+    </div>
+  </li>
+</ul>
+
+<div style="border-radius=5px">
+  <h3>List Deployment Groups</h3>
+  <form method="POST" action="/listDepGroup.html">{% csrf_token %}
+    <label for="Appname">Application Name</label>
+    <input type="text" id="AppName" name="appName" placeholder="Your application name..">
+
+    
+  
+    <input type="submit" value="List Deployment Group">
+  </form>
+  
+  <table id="customers">
+  <tr>
+    <th>Deployment Groups</th>
+    <tr>
+    <td>
+        <center><a> {{ listDepGroupsHTML | linebreaks}} </a></center>
+    </td>
+  </tr>
+  </tr>
+  </table>
+</div>
+
+</body>
+</html>
+

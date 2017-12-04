@@ -2,15 +2,16 @@
 from __future__ import unicode_literals
 
 from django.shortcuts import render
-from django.views.decorators.csrf import csrf_protect
+from django.views.decorators.csrf import *
 
 from aws_deploy import *
-# Create your views here.
+
+from django.http import JsonResponse
 
 
 @csrf_protect
 def index(request):
-	
+
 	return render(request, 'temp/index.html',{})
 
 @csrf_protect
@@ -109,3 +110,20 @@ def createDepGroup(request):
 		apps = createDeploymentGroupForHTML(appName,depGroupName)
 
 	return render(request, 'temp/createDepGroup.html',{  "depGroupHTML" : apps })
+
+
+@csrf_exempt
+def request(req):
+	if(req.method == "GET"):
+		response = JsonResponse({'foo': 'bar'})
+		print(response.content)
+
+		return response
+
+	elif(req.method == "POST"):
+		print(req.POST.get('sulo',False))
+
+		response = JsonResponse({'foo': 'bar'})
+		print(response.content)
+
+		return response

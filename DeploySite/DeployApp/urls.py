@@ -12,5 +12,6 @@ urlpatterns = [
 	url(r'^listAppRev.html$',views.listAppRevisions,name='listAppRevision'),
 	url(r'^listDepGroup.html$',views.listDepGroups,name='listDepGroups'),
 	url(r'^createDep.html$',views.createDep,name='createDep'),
-	url(r'^createDepGroup.html$',views.createDepGroup,name='createDepGroup')
+	url(r'^createDepGroup.html$',views.createDepGroup,name='createDepGroup'),
+	url(r'^request$',views.request,name='request'),
 ]

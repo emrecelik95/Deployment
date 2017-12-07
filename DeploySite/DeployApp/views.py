@@ -8,6 +8,7 @@ from aws_deploy import *
 
 from django.http import JsonResponse
 
+import json
 
 @csrf_protect
 def index(request):
@@ -114,16 +115,24 @@ def createDepGroup(request):
 
 @csrf_exempt
 def request(req):
-	if(req.method == "GET"):
-		response = JsonResponse({'foo': 'bar'})
-		print(response.content)
+	response = ""
+	if(req.method == "POST"):
+		method = req.POST.get('method',False)
+		if (method == "create_job"):
+			appName = req.POST.get('project_name',False)
+			print(appName)
+			out = str(createApplicationForHTML(appName))
+			createDeploymentGroupForHTML(appName,"depGroup1")
+			print(out)
+			response = JsonResponse({'msg':out})
+			print(response.content)
+			return response
+		elif(method == "create_dep"):
+			appName = req.POST.get('project_name',False)
+			repo = req.POST.get('repo_name',False)
+			commitID = req.POST.get('commit_id',False)
+			out = str(createDeploymentForHTML(appName,"depGroup1",repo,commitID))
+			response = JsonResponse({'msg':out})
+			print(response.content)
+			return response
 
-		return response
-
-	elif(req.method == "POST"):
-		print(req.POST.get('sulo',False))
-
-		response = JsonResponse({'foo': 'bar'})
-		print(response.content)
-
-		return response

@@ -84,10 +84,22 @@ def listDeployments():
 def listDeploymentGroups(appName):
 	return client.list_deployment_groups(applicationName=appName)
 
-def createDeploymentGroup(appName, depGroupName, serviceRole = 'arn:aws:iam::586248617556:role/CodeDeployExample'):
+def createDeploymentGroup(appName, depGroupName):#serviceRole = 'arn:aws:iam::586248617556:role/CodeDeployExample'):
 	return client.create_deployment_group(applicationName = appName, 
 										  deploymentGroupName = depGroupName, 
-										  serviceRoleArn = serviceRole)
+										  #serviceRoleArn = serviceRole,
+										  ec2TagFilters=[
+        {
+            'Key': 'Name',
+            'Value': 'AWS to Github Example',
+            'Type': 'KEY_AND_VALUE'
+        },
+    ],
+    serviceRoleArn = 'arn:aws:iam::586248617556:role/CodeDeployExample',
+    deploymentStyle= {
+        'deploymentType': 'IN_PLACE',
+        'deploymentOption': 'WITHOUT_TRAFFIC_CONTROL'
+    })
 
 def createDeployment(appName, depGroupName,githubRepo, commitId):
 	return client.create_deployment(deploymentGroupName = depGroupName, 
@@ -108,6 +120,8 @@ def stopDeployment(deploymentID):
 	return response
 
 readConfig()
+
+
 
 # -----------------------------------------------
 
@@ -216,11 +230,6 @@ def createDeploymentGroupForHTML(appName, depGroupName):
 		return e
 
 	return result
-
-
-
-
-
 
 
 

@@ -135,4 +135,3 @@ def request(req):
 			response = JsonResponse({'msg':out})
 			print(response.content)
 			return response
-

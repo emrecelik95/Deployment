@@ -12,7 +12,6 @@ import datetime as dt
 import os
 import boto3
 import yaml
-import os
 import re
 import zipfile
 ####### imports #########
@@ -230,10 +229,3 @@ def createDeploymentGroupForHTML(appName, depGroupName):
 		return e
 
 	return result
-
-
-
-
-
-
-

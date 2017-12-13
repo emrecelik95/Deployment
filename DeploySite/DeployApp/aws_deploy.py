@@ -18,6 +18,11 @@ import zipfile
 
 global client
 
+global PUBLIC_IP
+PUBLIC_IP = "52.39.172.96"
+
+global pem_data
+pem_data = ""
 
 iam = boto3.resource('iam')
 global user
@@ -34,6 +39,10 @@ def read(path, loader=None, binary_file=False):
 def readConfig (configFile='config.yaml'):
 	pathToConfigFile = os.path.join(CURRENT_DIR,configFile)
 	cfg = read(pathToConfigFile,loader = yaml.load)
+	file = open("imarkett.pem","r")
+	global pem_data
+	pem_data = file.read()
+	 
 
 	global userName
 	global password
@@ -122,7 +131,7 @@ readConfig()
 
 
 
-# -----------------------------------------------
+# ------------------------------------------------------
 
 def listDeploymentsIDForHTML():
 	try:
@@ -174,13 +183,16 @@ def listAppRevisionsForHTML(appName):
 
 def createApplicationForHTML(appName):
 	result = ""
+	status = ""
 	try:
 		d = createApplication(appName)['applicationId']
 		result += "Successful! , ApplicationID : " + d
+		status = "TRUE"
 	except Exception as e:
-		return e
+		status = "FALSE"
+		result = str(e)
 
-	return result
+	return result, status
 
 
 def listApplicationsForHTML():
@@ -211,13 +223,16 @@ def listDeploymentGroupsForHTML(appName):
 
 def createDeploymentForHTML(appName, depGroupName, githubRepo, commitId):
 	result = ""
+	status = ""
 	try:
 		d = createDeployment(appName, depGroupName,githubRepo, commitId)['deploymentId']
 		result += "Successful! , Deployment ID : " + d + "\n"
+		status = "TRUE"
 	except Exception as e:
-		return e
+		status = "FALSE"
+		result = str(e)
 
-	return result
+	return result,status
 
 
 def createDeploymentGroupForHTML(appName, depGroupName):

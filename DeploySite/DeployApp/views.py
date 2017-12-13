@@ -10,6 +10,7 @@ from django.http import JsonResponse
 
 import json
 
+
 @csrf_protect
 def index(request):
 
@@ -116,22 +117,32 @@ def createDepGroup(request):
 @csrf_exempt
 def request(req):
 	response = ""
+	status = ""
 	if(req.method == "POST"):
-		method = req.POST.get('method',False)
+		print(req.POST)
+		properties = req.POST['properties']
+		print(properties)
+		method = properties['method']
 		if (method == "create_job"):
-			appName = req.POST.get('project_name',False)
-			print(appName)
-			out = str(createApplicationForHTML(appName))
-			createDeploymentGroupForHTML(appName,"depGroup1")
-			print(out)
-			response = JsonResponse({'msg':out})
-			print(response.content)
+			appName = properties['project_name']
+			username = properties['github_login']
+			out,status = createApplicationForHTML(appName)
+			createDeploymentGroupForHTML(appName,username)
+			response = JsonResponse({'description' : out, 'properties' : {'status' : status,'method' : method}})
 			return response
 		elif(method == "create_dep"):
-			appName = req.POST.get('project_name',False)
-			repo = req.POST.get('repo_name',False)
-			commitID = req.POST.get('commit_id',False)
-			out = str(createDeploymentForHTML(appName,"depGroup1",repo,commitID))
-			response = JsonResponse({'msg':out})
+			appName = properties['project_name']
+			commitID = properties['commit_id']
+			depGroupName = listDeploymentGroups(appName)['deploymentGroups']
+			username = depGroupName
+			repo = username + "/" + appName
+			out,status = createDeploymentForHTML(appName,depGroupName,repo,commitID)
+			response = JsonResponse({'description' : out,'properties':{'method' : method, 
+																		'app_info' : {'app_name' : appName,
+																					  'app_path' : '/home/ec2-user/apps/' + appName} ,
+																	   'machine_info' : {'public_ip' : PUBLIC_IP,
+																						 'pem_file' : pemFile,
+																						 'usage' : 'chmod 400 imarkett.pem && ssh -i "imarkett.pem" ec2-user@ec2-52-39-172-96.us-west-2.compute.amazonaws.com'
+																						  }}})
 			print(response.content)
 			return response

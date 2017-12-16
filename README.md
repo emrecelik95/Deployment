@@ -1,2 +1,2 @@
 # Deployment
-Deployment and Operation of DevOps Project
+Deployment and Operation Using AWS CodeDeploy

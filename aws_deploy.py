@@ -21,7 +21,7 @@ import requests
 global client
 
 global PUBLIC_IP
-PUBLIC_IP = "52.39.172.96"
+PUBLIC_IP = ""
 
 global pem_data
 pem_data = ""
